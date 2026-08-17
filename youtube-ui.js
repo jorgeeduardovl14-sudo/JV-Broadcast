@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const createLiveButton = document.getElementById("createYouTubeLiveBtn");
   const liveStatus = document.getElementById("youtubeLiveStatus");
 
+  const rtmpUrlInput = document.getElementById("rtmpUrl");
+  const streamKeyInput = document.getElementById("streamKey");
+
   // CONECTAR CUENTA DE YOUTUBE
   if (connectButton && status) {
     connectButton.addEventListener("click", () => {
@@ -26,11 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // CREAR TRANSMISIÓN DE PRUEBA
+  // CREAR TRANSMISIÓN DE YOUTUBE
   if (createLiveButton && liveStatus) {
     createLiveButton.addEventListener("click", async () => {
       try {
-        liveStatus.textContent = "Creando transmisión de prueba...";
+        liveStatus.textContent = "Creando transmisión...";
         createLiveButton.disabled = true;
 
         if (!window.JVYouTubeLive) {
@@ -43,16 +46,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const session = await window.JVYouTubeLive.createSession({
           title: "JV Broadcast - Prueba",
-          description: "Prueba de integración JV Broadcast con YouTube Live",
+          description: "Transmisión creada desde JV Broadcast",
           privacyStatus: "unlisted",
           resolution: "720p",
           frameRate: "30fps"
         });
 
+        // RELLENAR AUTOMÁTICAMENTE RTMPS Y STREAM KEY
+        if (rtmpUrlInput && session.ingestionAddress) {
+          rtmpUrlInput.value = session.ingestionAddress;
+        }
+
+        if (streamKeyInput && session.streamName) {
+          streamKeyInput.value = session.streamName;
+        }
+
         liveStatus.textContent =
           `Transmisión creada correctamente. ID: ${session.broadcastId}`;
 
         console.log("YouTube Live Session:", session);
+
       } catch (error) {
         console.error("Error creando transmisión:", error);
         liveStatus.textContent = `Error: ${error.message}`;
