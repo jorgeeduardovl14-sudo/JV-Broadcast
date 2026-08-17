@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>JV Broadcast</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body class="landing">
+<main class="shell preprod-shell">
+  <section>
+    <span class="eyebrow">JORGE VARGAS</span>
+    <h1>JV Broadcast</h1>
+    <p class="lead">Prepara el partido y los patrocinadores antes de elegir cámara o control.</p>
+
+    <div class="card start-card">
+      <div class="section-title-row"><h2>1. Partido</h2><button id="newCode" class="small">Nuevo código</button></div>
+      <label>Código del partido</label>
+      <input id="matchCode" maxlength="18" placeholder="Ej. SBV-U19-01" autocomplete="off">
+      <label>Plantilla</label>
+      <select id="template">
+        <option value="primera">Primera División</option>
+        <option value="u19">U19</option>
+        <option value="u17">U17</option>
+        <option value="jdn">Juegos Nacionales</option>
+        <option value="custom">Personalizada</option>
+      </select>
+      <label class="check"><input id="cleanMatch" type="checkbox" checked> Empezar marcador y gráficos limpios</label>
+    </div>
+
+    <div class="card">
+      <div class="section-title-row"><h2>2. Patrocinadores</h2><button id="restoreDemo" class="small">Borrar biblioteca</button></div>
+      <div class="sponsor-pre-grid">
+        <div>
+          <label>Nombre</label><input id="preSponsorName" placeholder="Nombre del patrocinador">
+          <label>Mensaje</label><input id="preSponsorText" placeholder="Patrocinador oficial">
+          <label>Logo por URL (opcional)</label><input id="preSponsorUrl" placeholder="https://...">
+          <label>O subir logo desde el dispositivo</label>
+          <input id="preSponsorFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+          <div id="preLogoPreview" class="logo-preview"><span>Vista previa</span></div>
+          <button id="savePreSponsor" class="primary">Guardar patrocinador</button>
+        </div>
+        <div>
+          <p class="hint">Esta biblioteca se conserva en este dispositivo y se carga al entrar al partido.</p>
+          <div id="preSponsorList" class="pre-sponsor-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. Elegir función</h2>
+      <div class="role-grid">
+        <button id="cameraBtn" class="primary">📱 Usar como cámara</button>
+        <button id="controlBtn">🎛️ Usar como control</button>
+      </div>
+      <p class="hint">Usa exactamente el mismo código en el teléfono y la tablet.</p>
+    </div>
+  </section>
+
+  <aside class="feature-card">
+    <h2>Flujo de trabajo</h2>
+    <ol>
+      <li>Prepara aquí los patrocinadores.</li>
+      <li>El teléfono entra como cámara.</li>
+      <li>La tablet entra como control con el mismo código.</li>
+    </ol>
+    <div class="status online">Versión actual: V16.4 Firebase</div>
+  </aside>
+</main>
+<script type="module" src="assets/js/landing.js"></script>
+</body>
+</html>

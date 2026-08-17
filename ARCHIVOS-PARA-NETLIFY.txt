@@ -1,0 +1,16 @@
+Sube el archivo ZIP completo a Netlify. No elimines ni muevas archivos.
+
+Archivos principales:
+- index.html
+- studio.html
+- control.html
+- netlify.toml
+- manifest.webmanifest
+- sw.js
+- assets/css/styles.css
+- assets/js/config.js
+- assets/js/realtime.js
+- assets/js/landing.js
+- assets/js/studio.js
+- assets/js/control.js
+- assets/js/whip-publisher.js

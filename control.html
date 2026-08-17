@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>Control | JV Broadcast</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div><b>Control JV Broadcast</b><span id="matchLabel"></span><small class="version-tag">V16.4 Firebase</small></div>
+  <div class="top-actions"><span id="syncStatus" class="status offline">Conectando…</span><button id="exitBtn" class="small danger">Salir</button></div>
+</header>
+
+<div id="streamEndedNotice" class="stream-ended-notice hidden"><b>La transmisión ha finalizado desde el teléfono.</b><span>Los controles permanecen visibles para revisar el resultado.</span></div>
+<main class="control-shell control-console">
+  <section class="score-workspace">
+    <div class="section-title">
+      <div><span class="eyebrow-mini">CONTROL DEL PARTIDO</span><h1>Marcador</h1></div>
+      <label class="check score-toggle"><input id="scoreVisible" type="checkbox" checked> Mostrar marcador</label>
+    </div>
+
+    <div class="score-grid">
+      <article class="team-card">
+        <input id="homeName" value="Santa Bárbara">
+        <div class="big-score" id="homeScore">0</div>
+        <div class="score-buttons"><button data-act="homeMinus">−</button><button class="primary" data-act="homePlus">+</button></div>
+        <button data-serve="home">Saque local</button>
+      </article>
+
+      <article class="set-card">
+        <span>SET</span>
+        <div id="setNumber">1</div>
+        <div class="score-buttons"><button data-act="setMinus">−</button><button data-act="setPlus">+</button></div>
+        <button id="undo">↶ Deshacer</button>
+      </article>
+
+      <article class="team-card">
+        <input id="awayName" value="Visitante">
+        <div class="big-score" id="awayScore">0</div>
+        <div class="score-buttons"><button data-act="awayMinus">−</button><button class="primary" data-act="awayPlus">+</button></div>
+        <button data-serve="away">Saque visitante</button>
+      </article>
+    </div>
+
+    <div class="set-history-panel">
+      <div class="set-history-heading">
+        <div><span class="eyebrow-mini">RESULTADOS POR SET</span><p>Los sets terminados quedan congelados; el set activo inicia en 0–0.</p></div>
+        <button id="editLastSet" class="small">Corregir último set</button>
+      </div>
+      <div id="setHistoryList" class="set-history-list"><span class="hint">Aún no hay sets finalizados.</span></div>
+    </div>
+  </section>
+
+  <aside class="production-workspace">
+    <nav class="tabs production-tabs">
+      <button class="active" data-tab="sponsors">Patrocinadores</button>
+      <button data-tab="lower">Cintillos</button>
+      <button data-tab="scenes">Escenas</button>
+      <button data-tab="settings">Ajustes</button>
+    </nav>
+
+    <section id="sponsors" class="tab active">
+      <div class="card compact-card">
+        <div class="card-heading"><h2>Control publicitario</h2><span class="mini-label">EN VIVO</span></div>
+        <div class="button-grid">
+          <button id="showNext">Siguiente</button>
+          <button id="showRandom">Aleatorio</button>
+          <button id="toggleSponsor">Mostrar / ocultar</button>
+          <button id="fullscreenSponsor">Pantalla completa</button>
+        </div>
+        <label>Rotación automática</label>
+        <select id="rotationSeconds">
+          <option value="0">Desactivada</option><option value="10">Cada 10 s</option><option value="20">Cada 20 s</option><option value="30">Cada 30 s</option><option value="60">Cada 60 s</option>
+        </select>
+        <div class="two-inputs overlay-controls">
+          <div><label>Posición del logo</label><select id="sponsorPosition"><option value="top-right">Superior derecha</option><option value="bottom-right">Inferior derecha</option><option value="bottom-left">Inferior izquierda</option></select></div>
+          <div><label>Tamaño del logo</label><select id="sponsorSize"><option value="small">Pequeño</option><option value="medium" selected>Mediano</option><option value="large">Grande</option></select></div>
+        </div>
+        <div id="sponsorList" class="list sponsor-list"></div>
+      </div>
+
+      <div class="card compact-card">
+        <h2>Agregar patrocinador</h2>
+        <input id="sponsorName" placeholder="Nombre">
+        <input id="sponsorText" placeholder="Mensaje / categoría">
+        <input id="sponsorLogo" placeholder="URL del logo (opcional)">
+        <label>O subir logo desde Fotos / Archivos</label>
+        <input id="sponsorFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+        <div id="sponsorLogoPreview" class="logo-preview compact-logo-preview"><span>Vista previa del logo</span></div>
+        <select id="sponsorWeight"><option value="1">Frecuencia normal</option><option value="2">Frecuencia doble</option><option value="3">Frecuencia triple</option></select>
+        <button id="addSponsor" class="primary full">Agregar</button>
+        
+      </div>
+    </section>
+
+    <section id="lower" class="tab">
+      <div class="card compact-card">
+        <h2>Crear cintillo</h2>
+        <input id="lowerTitle" placeholder="Título">
+        <input id="lowerSubtitle" placeholder="Subtítulo">
+        <div class="two-inputs">
+          <select id="lowerStyle"><option value="player">Jugadora</option><option value="notice">Aviso</option><option value="stat">Estadística</option></select>
+          <select id="lowerDuration"><option value="5">5 segundos</option><option value="8">8 segundos</option><option value="12">12 segundos</option><option value="0">Hasta ocultar</option></select>
+        </div>
+        <div class="button-row"><button id="showLower" class="primary">Mostrar</button><button id="hideLower">Ocultar</button></div>
+      </div>
+      <div class="card compact-card">
+        <h2>Mensajes rápidos</h2>
+        <div class="button-grid"><button data-quick="Tiempo técnico|Regresamos en breve">Tiempo técnico</button><button data-quick="Inicio de set|Preparados para continuar">Inicio de set</button><button data-quick="Punto para|Actualización del marcador">Punto</button><button data-quick="Resultado final|Gracias por acompañarnos">Final</button></div>
+      </div>
+    </section>
+
+    <section id="scenes" class="tab">
+      <div class="card compact-card">
+        <div class="card-heading"><h2>Escenas</h2><button id="saveScenes" class="small">Guardar textos</button></div>
+        <p class="hint">Puedes modificar los títulos y subtítulos antes o durante el partido.</p>
+        <div class="scene-editor-list">
+          <div class="scene-editor-row"><b>Próximamente</b><input id="sceneUpcomingTitle" placeholder="Título"><input id="sceneUpcomingSubtitle" placeholder="Subtítulo"><button data-scene-key="upcoming">Mostrar</button></div>
+          <div class="scene-editor-row"><b>Partido</b><input id="sceneLiveTitle" placeholder="Título"><input id="sceneLiveSubtitle" placeholder="Subtítulo"><button data-scene-key="live">Mostrar</button></div>
+          <div class="scene-editor-row"><b>Tiempo técnico</b><input id="sceneTimeoutTitle" placeholder="Título"><input id="sceneTimeoutSubtitle" placeholder="Subtítulo"><button data-scene-key="timeout">Mostrar</button></div>
+          <div class="scene-editor-row"><b>Entre sets</b><input id="sceneBetweenTitle" placeholder="Título"><input id="sceneBetweenSubtitle" placeholder="Subtítulo"><button data-scene-key="between">Mostrar</button></div>
+          <div class="scene-editor-row"><b>Final</b><input id="sceneFinalTitle" placeholder="Título"><input id="sceneFinalSubtitle" placeholder="Subtítulo"><button data-scene-key="final">Mostrar</button></div>
+        </div>
+        <button id="hideScene" class="full">Volver a cámara</button>
+      </div>
+    </section>
+
+    <section id="settings" class="tab">
+      <div class="card compact-card">
+        <h2>Plantilla</h2>
+        <select id="template"><option value="primera">Primera División</option><option value="u19">U19</option><option value="u17">U17</option><option value="jdn">Juegos Nacionales</option><option value="custom">Personalizada</option></select>
+        <label>Color principal</label><input id="accent" type="color" value="#20d3a6">
+        <button id="applyTemplate" class="full">Aplicar</button>
+        <hr>
+        <h2>Ubicación del marcador</h2>
+        <div class="two-inputs overlay-controls">
+          <div><label>Posición</label><select id="scorePosition"><option value="top-left">Superior izquierda</option><option value="top-center">Superior centro</option><option value="top-right">Superior derecha</option><option value="bottom-left">Inferior izquierda</option><option value="bottom-center">Inferior centro</option><option value="bottom-right">Inferior derecha</option></select></div>
+          <div><label>Tamaño</label><select id="scoreSize"><option value="small">Pequeño</option><option value="medium" selected>Mediano</option><option value="large">Grande</option></select></div>
+        </div>
+        <button id="applyScoreLayout" class="full">Aplicar posición y tamaño</button>
+        <hr>
+        <h2>Equipos en el marcador</h2>
+        <div class="team-brand-grid">
+          <div>
+            <label>Color local</label><input id="homeColor" type="color" value="#20d3a6">
+            <label>Logo local por URL</label><input id="homeLogoUrl" placeholder="https://...">
+            <label>O subir logo local</label><input id="homeLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+            <div id="homeLogoPreview" class="logo-preview compact-logo-preview"><span>Logo local</span></div>
+          </div>
+          <div>
+            <label>Color visitante</label><input id="awayColor" type="color" value="#2563eb">
+            <label>Logo visitante por URL</label><input id="awayLogoUrl" placeholder="https://...">
+            <label>O subir logo visitante</label><input id="awayLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+            <div id="awayLogoPreview" class="logo-preview compact-logo-preview"><span>Logo visitante</span></div>
+          </div>
+        </div>
+        <button id="applyTeams" class="full">Aplicar logos y colores</button>
+      </div>
+      <div class="card compact-card">
+        <h2>Estado</h2><p>El teléfono debe permanecer con la pantalla encendida y la página del estudio abierta.</p><button id="resetMatch" class="danger full">Reiniciar partido</button>
+      </div>
+    </section>
+  </aside>
+</main>
+<script type="module" src="assets/js/control.js"></script>
+</body>
+</html>
